@@ -21,7 +21,7 @@
 #define DEST_HEIGHT 24 //24
 // important tuning parameter (define sensitivity)
 #define BLOCK_VARIATION_THRESHOLD 0.05//0.3
-#define MOTION_THRESHOLD 0.01//0.2
+#define MOTION_THRESHOLD 0.02//0.2
 
 // namespace definition
 using namespace Eloquent::Vision;
@@ -110,6 +110,9 @@ void loop() {
     // give trigger to the jack DC 
     digitalWrite(12, HIGH);
     delay(100);
+    digitalWrite(12, LOW);
+    // wait for 5 minutes to anticipate bounce/multiple detection
+    delay(3000000);
   }
 }
 
