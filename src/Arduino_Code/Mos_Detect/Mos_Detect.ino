@@ -4,6 +4,22 @@
 // https://eloquentarduino.github.io/2020/05/easier-faster-pure-video-esp32-cam-motion-detection/?utm_source=old_version
 // modified and adjusted to Mosquito detection purpose
 
+// add Wifi for MQTT
+// #include <Arduino.h>
+//#include <WiFi.h>
+//#include <PubSubClient.h>
+
+// adapted with the node SSID and Password
+//const char* ssid = "*********";
+//const char* password = "*********";
+
+// MQTT client
+// change this based on the node needs
+//WiFiClient wifiClient;
+//PubSubClient mqttClient(wifiClient); 
+//char *mqttServer = "101.128.71.227";
+//int mqttPort = 1883;
+
 // using AI Thinker camera model
 #define CAMERA_MODEL_AI_THINKER
 
@@ -51,11 +67,23 @@ void printFilesize(const char *filename);
 /**
 
 */
-void setup() {
+void setup() {  
   Serial.begin(115200);
   SPIFFS.begin(true);
   camera.begin(FRAME_SIZE, PIXFORMAT_GRAYSCALE);
   motion.setBlockVariationThreshold(BLOCK_VARIATION_THRESHOLD);
+  // additional WSP Wifi connect
+  //  WiFi.begin(ssid, password);
+  //
+  //  while (WiFi.status() != WL_CONNECTED) {
+  //    delay(500);
+  //    Serial.print(".");
+  //  }
+  //  Serial.println("");
+  //  Serial.println("WiFi connected");
+  //
+  //  mqttClient.setServer(mqttServer, mqttPort);
+  
   // additional  (HAM)
   // add trigger pin (to jack stereo -> android)
   // using pin IO12, because we dont use the SD card function
@@ -107,7 +135,11 @@ void loop() {
 
       debounceMotion(true);
     }
-    // give trigger to the jack DC 
+    // give trigger to the jack DC
+    //  int test = 1;
+    //  char data[40];
+    //  sprintf(data, "%f", test);
+    //  mqttClient.publish("/detect10", data); 
     digitalWrite(12, HIGH);
     delay(100);
     digitalWrite(12, LOW);
